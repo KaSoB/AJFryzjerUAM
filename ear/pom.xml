@@ -18,7 +18,20 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-  
+    <dependencies>
+        <dependency>
+            <groupId>pl.aj.uamproject.hairdresser</groupId>
+            <artifactId>Database-ejb</artifactId>
+            <version>${project.version}</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>pl.aj.uamproject.hairdresser</groupId>
+            <artifactId>RestAPI-war</artifactId>
+            <version>${project.version}</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
