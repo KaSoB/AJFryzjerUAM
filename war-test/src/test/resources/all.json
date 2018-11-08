@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "firstName": "Jan",
+    "lastName": "Kowalski",
+    "email": "janek302@gmail.com",
+    "phoneNumber": "698488394",
+    "appointmentDate": "1541709504"
+  }
+]
