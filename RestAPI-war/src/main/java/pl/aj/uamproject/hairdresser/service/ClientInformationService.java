@@ -3,10 +3,7 @@ package pl.aj.uamproject.hairdresser.service;
 import pl.aj.uamproject.hairdresser.dto.SimpleClientInfoDTO;
 import pl.aj.uamproject.hairdresser.model.Client;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ClientInformationService {
@@ -25,7 +22,7 @@ public class ClientInformationService {
     }
 
     public List<SimpleClientInfoDTO> getAllClients() {
-        return new ArrayList<>(database);
+        return database.stream().sorted(Comparator.comparing(SimpleClientInfoDTO::getId)).collect(Collectors.toList());
     }
 
     public SimpleClientInfoDTO getClientById(long id){

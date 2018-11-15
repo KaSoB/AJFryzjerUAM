@@ -1,9 +1,10 @@
-package pl.aj.uamproject.hairdresser.service;
+package pl.aj.uamproject.hairdresser;
 
 import org.junit.Test;
 import pl.aj.uamproject.hairdresser.dto.SimpleClientInfoDTO;
+import pl.aj.uamproject.hairdresser.service.ClientInformationService;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,10 +14,10 @@ public class ClientInformationServiceTest {
 
     @Test
     public void getAllClients() {
-        ArrayList<SimpleClientInfoDTO> allClients = clientInformationService.getAllClients();
+        List<SimpleClientInfoDTO> allClients = clientInformationService.getAllClients();
         assertEquals(5, allClients.size());
 
-        SimpleClientInfoDTO simpleClientInfoDTO = allClients.get(0);
+        SimpleClientInfoDTO simpleClientInfoDTO = allClients.stream().filter(it -> it.getId() == 1).findFirst().get();
         assertEquals("Jan", simpleClientInfoDTO.getFirstName());
         assertEquals("Kowalski", simpleClientInfoDTO.getLastName());
         assertEquals(1, simpleClientInfoDTO.getId());
@@ -34,7 +35,7 @@ public class ClientInformationServiceTest {
 
     @Test
     public void getByLastName() {
-        SimpleClientInfoDTO simpleClientInfoDTO = allClients.getClientByLastName("Gajewski");
+        SimpleClientInfoDTO simpleClientInfoDTO = clientInformationService.getClientByLastName("Gajewski");
         assertEquals("Piotr", simpleClientInfoDTO.getFirstName());
         assertEquals("Gajewski", simpleClientInfoDTO.getLastName());
         assertEquals(4, simpleClientInfoDTO.getId());
@@ -43,7 +44,7 @@ public class ClientInformationServiceTest {
 
     @Test
     public void getByPhoneNumber() {
-        SimpleClientInfoDTO simpleClientInfoDTO = allClients.getClientByPhoneNumber("745896321");
+        SimpleClientInfoDTO simpleClientInfoDTO = clientInformationService.getClientByPhoneNumber("745896321");
         assertEquals("Piotr", simpleClientInfoDTO.getFirstName());
         assertEquals("Gajewski", simpleClientInfoDTO.getLastName());
         assertEquals(4, simpleClientInfoDTO.getId());
