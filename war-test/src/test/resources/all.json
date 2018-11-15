@@ -1,10 +1,32 @@
 [
   {
-    "id": 1,
     "firstName": "Jan",
+    "id": 1,
     "lastName": "Kowalski",
-    "email": "janek302@gmail.com",
-    "phoneNumber": "698488394",
-    "appointmentDate": "1541709504"
+    "phoneNumber": "698488394"
+  },
+  {
+    "firstName": "Robert",
+    "id": 2,
+    "lastName": "Nowak",
+    "phoneNumber": "123456789"
+  },
+  {
+    "firstName": "Sebastian",
+    "id": 3,
+    "lastName": "Chmielewski",
+    "phoneNumber": "569845316"
+  },
+  {
+    "firstName": "Piotr",
+    "id": 4,
+    "lastName": "Gajewski",
+    "phoneNumber": "745896321"
+  },
+  {
+    "firstName": "Wiktoria",
+    "id": 5,
+    "lastName": "Nowak",
+    "phoneNumber": "986532147"
   }
 ]

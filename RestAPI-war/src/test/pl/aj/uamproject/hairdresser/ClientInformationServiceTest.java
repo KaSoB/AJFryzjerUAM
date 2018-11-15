@@ -1,9 +1,9 @@
-package pl.aj.uamproject.hairdresser.service;
+package pl.aj.uamproject.hairdresser;
 
 import org.junit.Test;
 import pl.aj.uamproject.hairdresser.dto.SimpleClientInfoDTO;
+import pl.aj.uamproject.hairdresser.service.ClientInformationService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
