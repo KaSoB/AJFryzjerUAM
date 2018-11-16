@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-abstract public class DAO<T extends IEntity> {
+abstract public class DAO<T extends IEntity<T>> {
     protected final Set<T> database = new HashSet<>();
 
     protected DAO(){
