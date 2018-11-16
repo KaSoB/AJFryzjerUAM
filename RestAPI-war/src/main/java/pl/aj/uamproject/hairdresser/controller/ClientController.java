@@ -1,6 +1,7 @@
 package pl.aj.uamproject.hairdresser.controller;
 
 import pl.aj.uamproject.hairdresser.dto.SimpleClientInfoDTO;
+import pl.aj.uamproject.hairdresser.model.Client;
 import pl.aj.uamproject.hairdresser.service.ClientInformationService;
 
 import javax.ws.rs.GET;
@@ -20,14 +21,14 @@ public class ClientController {
 
     @GET
     public Response getAll() {
-        List<SimpleClientInfoDTO> items = clientInformationService.getAllClients();
+        List<Client> items = clientInformationService.getAllClients();
         return Response.status(200).entity(items).build();
     }
 
     @GET
     @Path("{id}")
-    public Response getById(@PathParam("id") long id) {
-        SimpleClientInfoDTO item = clientInformationService.getClientById(id);
+    public Response getById(@PathParam("id") int id) {
+        Client item = clientInformationService.getClientById(id);
         return Response.status(200).entity(item).build();
     }
 
@@ -35,7 +36,7 @@ public class ClientController {
     @Path("phoneNumber")
     public Response getByPhoneNumber(@Context UriInfo info) {
         String phoneNumber = info.getQueryParameters().getFirst("phoneNumber");
-        SimpleClientInfoDTO item = clientInformationService.getClientByPhoneNumber(phoneNumber);
+        List<Client> item = clientInformationService.getClientByPhoneNumber(phoneNumber);
         return Response.status(200).entity(item).build();
     }
 
@@ -43,7 +44,15 @@ public class ClientController {
     @Path("lastName")
     public Response getByLastName(@Context UriInfo info) {
         String lastName = info.getQueryParameters().getFirst("lastName");
-        SimpleClientInfoDTO item = clientInformationService.getClientByLastName(lastName);
+        List<Client> item = clientInformationService.getClientByLastName(lastName);
+        return Response.status(200).entity(item).build();
+    }
+
+    @GET
+    @Path("email")
+    public Response getByEmail(@Context UriInfo info) {
+        String email = info.getQueryParameters().getFirst("email");
+        List<Client> item = clientInformationService.getClientByEmail(email);
         return Response.status(200).entity(item).build();
     }
 }

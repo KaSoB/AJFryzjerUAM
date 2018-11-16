@@ -17,15 +17,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClientRestFulTest {
 
-    @Test
-    public void shouldReturnClientInfoWithId1() throws IOException {
-        restTest("http://localhost:8080/RestAPI-war-1.0.0-SNAPSHOT/client/1", "resources/1.json");
-    }
-
-    @Test
-    public void shouldReturnAllIClientInfo() throws IOException {
-        restTest("http://localhost:8080/RestAPI-war-1.0.0-SNAPSHOT/client", "resources/all.json");
-    }
+//    @Test
+//    public void shouldReturnClientInfoWithId1() throws IOException {
+//        restTest("http://localhost:8080/RestAPI-war-1.0.0-SNAPSHOT/client/1", "resources/1.json");
+//    }
+//
+//    @Test
+//    public void shouldReturnAllIClientInfo() throws IOException {
+//        restTest("http://localhost:8080/RestAPI-war-1.0.0-SNAPSHOT/client", "resources/all.json");
+//    }
 
     private void restTest(String aRestUrl, String aPreparedFilePath) throws IOException {
         //given - prepare html request
