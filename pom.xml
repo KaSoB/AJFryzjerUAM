@@ -8,8 +8,8 @@
     <packaging>pom</packaging>
     <name>AJFryzjerUAM-parent</name>
     <modules>
-        <module>RestAPI-war</module>
-        <module>Database-ejb</module>
+        <module>war</module>
+        <module>ejb</module>
         <module>ear</module>
         <module>war-test</module>
     </modules>
