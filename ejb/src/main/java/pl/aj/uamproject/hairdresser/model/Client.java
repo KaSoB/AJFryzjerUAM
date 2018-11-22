@@ -1,14 +1,19 @@
 package pl.aj.uamproject.hairdresser.model;
+
 import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client implements Serializable, IEntity<Client> {
+
     private Integer id;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
-
+    private List<Appointment> appointments = new ArrayList<>();
 
     public Client() {
 
@@ -18,7 +23,7 @@ public class Client implements Serializable, IEntity<Client> {
         this.id = id;
     }
 
-    public Client(Integer id, String firstName , String lastName, String email, String phoneNumber) {
+    public Client(Integer id, String firstName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,9 +43,9 @@ public class Client implements Serializable, IEntity<Client> {
         return firstName;
     }
 
-public String getPhoneNumber(){
+    public String getPhoneNumber() {
         return phoneNumber;
-}
+    }
 
 
     public String getLastName() {
@@ -54,15 +59,23 @@ public String getPhoneNumber(){
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,5 +97,6 @@ public String getPhoneNumber(){
         this.lastName = client.lastName;
         this.email = client.email;
         this.phoneNumber = client.phoneNumber;
+        this.appointments = client.appointments;
     }
 }
