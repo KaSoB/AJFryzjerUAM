@@ -101,12 +101,13 @@ public class ClientController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         Client client = clientData.get();
-        List<Appointment> appointments = client.getAppointments();
-        List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
-        for (Appointment appointment : appointments) {
-            appointmentDTOs.add(new AppointmentDTO(appointment));
-        }
-        return Response.status(200).entity(appointmentDTOs).build();
+        //List<Appointment> appointments = client.getAppointments();
+      //  List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+       // for (Appointment appointment : appointments) {
+      //      appointmentDTOs.add(new AppointmentDTO(appointment));
+     //   }
+     //   return Response.status(200).entity(appointmentDTOs).build(); // TODO: ucnommnect
+        return Response.status(200).entity(1).build();
     }
 
 
@@ -124,6 +125,6 @@ public class ClientController {
         Client entity = mapper.ClientDTOToClient(client);
         Client ret = clientDAO.update(entity);
 
-        return Response.status(200).entity(ret).build();
+        return Response.status(200).entity(1).build();
     }
 }

@@ -1,27 +1,27 @@
 package pl.aj.uamproject.hairdresser.dto;
 
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+
 import pl.aj.uamproject.hairdresser.model.Client;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
-
 public class Mapper {
-    private ModelMapper modelMapper = new ModelMapper();
-
     public List<ClientDTO> ClientToClientDTO(List<Client> items){
-        return modelMapper.map(items, new TypeToken<List<ClientDTO>>(){}.getType());
+        List<ClientDTO> result = new ArrayList<>();
+        items.forEach(it -> result.add(ClientToClientDTO(it)));
+        return result;
     }
     public ClientDTO ClientToClientDTO(Client item){
-        return modelMapper.map(item, ClientDTO.class);
+        return new ClientDTO(item.getId(),item.getFirstName(),item.getLastName(),item.getEmail(),item.getPhoneNumber());
     }
     public List<Client> ClientDTOToClient(List<ClientDTO> items){
-        return modelMapper.map(items, new TypeToken<List<Client>>(){}.getType());
+        List<Client> result = new ArrayList<>();
+        items.forEach(it -> result.add(ClientDTOToClient(it)));
+        return result;
     }
     public Client ClientDTOToClient(ClientDTO item){
-        return modelMapper.map(item, Client.class);
+        return new Client(item.getId(), item.getFirstName(), item.getLastName(), item.getEmail(), item.getPhoneNumber());
     }
 }
 
