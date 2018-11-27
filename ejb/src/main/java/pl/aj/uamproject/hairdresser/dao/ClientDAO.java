@@ -1,12 +1,13 @@
 package pl.aj.uamproject.hairdresser.dao;
 
-import pl.aj.uamproject.hairdresser.infrastructure.DAO;
 import pl.aj.uamproject.hairdresser.model.Appointment;
 import pl.aj.uamproject.hairdresser.model.Client;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,9 @@ import java.util.stream.Collectors;
 @Singleton
 public class ClientDAO {
     private final Set<Client> database = new HashSet<>();
+
+    @PersistenceContext(unitName = "primary")
+    protected EntityManager em;
 
     public ClientDAO() {
     }
@@ -52,7 +56,7 @@ public class ClientDAO {
         Optional<Client> byId = getById(clientId);
         Client client = byId.get();
         Appointment appointment = new Appointment(client, appointmentDate);
-        client.getAppointments().add(appointment);
+        //client.getAppointments().add(appointment); // TODO: uncomment
         return appointment;
     }
 

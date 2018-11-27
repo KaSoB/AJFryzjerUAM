@@ -1,8 +1,15 @@
 package pl.aj.uamproject.hairdresser.model;
 import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 
+@Entity
 public class Employee implements Serializable, IEntity<Employee> {
+    @Id
+    @GeneratedValue
     private Integer id;
     private String firstName;
     private String lastName;

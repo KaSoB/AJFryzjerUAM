@@ -2,18 +2,22 @@ package pl.aj.uamproject.hairdresser.model;
 
 import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Client implements Serializable, IEntity<Client> {
-
+    @Id
+    @GeneratedValue
     private Integer id;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
-    private List<Appointment> appointments = new ArrayList<>();
 
     public Client() {
 
@@ -72,9 +76,6 @@ public class Client implements Serializable, IEntity<Client> {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -97,6 +98,5 @@ public class Client implements Serializable, IEntity<Client> {
         this.lastName = client.lastName;
         this.email = client.email;
         this.phoneNumber = client.phoneNumber;
-        this.appointments = client.appointments;
     }
 }

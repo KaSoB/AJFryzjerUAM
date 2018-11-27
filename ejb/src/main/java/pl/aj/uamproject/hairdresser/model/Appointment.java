@@ -2,20 +2,28 @@ package pl.aj.uamproject.hairdresser.model;
 
 import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.Date;
 
+@Entity
 public class Appointment implements IEntity<Appointment> {
-    private static int appointmentId = 1;
-
-
+    @Id
+    @GeneratedValue
     private int id;
     private Date appointmentDate;
     private Client client;
 
+
+    public Appointment() {
+    }
+    public Appointment(int id) {
+        this.id = id;
+    }
     public Appointment(Client client, Date appointmentDate) {
         this.client = client;
         this.appointmentDate = appointmentDate;
-        this.id = appointmentId++;
     }
 
 
