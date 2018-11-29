@@ -9,6 +9,7 @@ import pl.aj.uamproject.hairdresser.model.Client;
 import pl.aj.uamproject.hairdresser.service.ClientService;
 
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @Path("client")
 @Produces("application/json; charset=UTF-8")
+@RequestScoped
 public class ClientController {
     @EJB
     private ClientDAO clientDAO = new ClientDAO();

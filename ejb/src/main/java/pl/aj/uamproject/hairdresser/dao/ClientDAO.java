@@ -24,11 +24,12 @@ public class ClientDAO {
 
     @PostConstruct
     void init() {
-        database.add(new Client(1, "Jan", "Kowalski", "jankowal@vp.pl", "698488394"));
-        database.add(new Client(2, "Robert", "Nowak", "robert@onet.pl", "123456789"));
-        database.add(new Client(3, "Sebastian", "Chmielewski", "chmielewskipolska@vp.pl", "569845316"));
-        database.add(new Client(4, "Piotr", "Gajewski", "GajPiotr@vp.pl", "745896321"));
-        database.add(new Client(5, "Wiktoria", "Nowak", "nowak.wikotria@vp.pl", "986532147"));
+
+        em.persist(new Client("Jan", "Kowalski", "jankowal@vp.pl", "698488394"));
+        em.persist(new Client( "Robert", "Nowak", "robert@onet.pl", "123456789"));
+        em.persist(new Client( "Sebastian", "Chmielewski", "chmielewskipolska@vp.pl", "569845316"));
+        em.persist(new Client( "Piotr", "Gajewski", "GajPiotr@vp.pl", "745896321"));
+        em.persist(new Client( "Wiktoria", "Nowak", "nowak.wikotria@vp.pl", "986532147"));
     }
 
     public List<Client> getClientByPhoneNumber(String phoneNumber) {
@@ -45,7 +46,12 @@ public class ClientDAO {
 
 
     public Optional<Client> getById(int id) {
-        return database.stream().filter(e -> e.getId() == id).findFirst();
+        Client client = em.
+                createQuery(
+                "SELECT c FROM Client c WHERE c.id=:id", Client.class)
+                .setParameter("id", id)
+                .setMaxResults(1).getSingleResult();
+        return Optional.of(client);
     }
 
     public List<Client> getAll() {
