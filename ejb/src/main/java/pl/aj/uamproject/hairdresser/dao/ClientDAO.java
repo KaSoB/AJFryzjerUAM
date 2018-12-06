@@ -72,12 +72,16 @@ public class ClientDAO {
         return Optional.of(clients);
     }
 
-    public Appointment addApointment(int clientId, Date appointmentDate) {
+    public Optional<Appointment> addApointment(int clientId, Date appointmentDate) {
         Optional<Client> byId = getById(clientId);
+        boolean present = byId.isPresent();
+        if(!present) {
+            return Optional.empty();
+        }
         Client client = byId.get();
         Appointment appointment = new Appointment(client, appointmentDate);
-        //client.getAppointments().add(appointment); // TODO: uncomment
-        return appointment;
+        client.getAppointments().add(appointment); // TODO: uncomment
+        return Optional.of(appointment);
     }
 
 

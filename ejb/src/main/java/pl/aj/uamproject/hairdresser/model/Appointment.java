@@ -5,6 +5,7 @@ import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.util.Date;
 
 @Entity
@@ -13,14 +14,20 @@ public class Appointment implements IEntity<Appointment> {
     @GeneratedValue
     private int id;
     private Date appointmentDate;
+
+    @ManyToOne
     private Client client;
 
+    @ManyToOne
+    private Employee employee;
 
     public Appointment() {
     }
+
     public Appointment(int id) {
         this.id = id;
     }
+
     public Appointment(Client client, Date appointmentDate) {
         this.client = client;
         this.appointmentDate = appointmentDate;
@@ -55,6 +62,14 @@ public class Appointment implements IEntity<Appointment> {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     @Override

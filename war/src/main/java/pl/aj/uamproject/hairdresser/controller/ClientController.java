@@ -30,7 +30,7 @@ public class ClientController {
     @GET
     public Response getAll() {
         Optional<List<Client>> clientsData = clientDAO.getAll();
-        if(clientsData.isPresent()){
+        if (clientsData.isPresent()) {
             List<Client> clients = clientsData.get();
             List<ClientDTO> dto = mapper.ClientToClientDTO(clients);
             return Response.status(Response.Status.OK).entity(dto).build();
@@ -41,10 +41,13 @@ public class ClientController {
     @GET
     @Path("{id}")
     public Response getById(@PathParam("id") int id) {
-
-        Client item = clientDAO.getById(id).get();
-        ClientDTO dto = mapper.ClientToClientDTO(item);
-        return Response.status(Response.Status.OK).entity(dto).build();
+        Optional<Client> clientData = clientDAO.getById(id);
+        if (!clientData.isPresent()) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        Client client = clientData.get();
+        ClientDTO clientDTO = mapper.ClientToClientDTO(client);
+        return Response.status(Response.Status.OK).entity(clientDTO).build();
     }
 
     @GET
@@ -102,9 +105,12 @@ public class ClientController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         Client client = clientData.get();
-        Appointment appointment = clientDAO.addApointment(client.getId(), new Date(Long.parseLong(date)));
-        AppointmentDTO dto = new AppointmentDTO(appointment);
-        return Response.status(Response.Status.CREATED).entity(appointment).build();
+        Optional<Appointment> appointment = clientDAO.addApointment(client.getId(), new Date(Long.parseLong(date)));
+        if (appointment.isPresent()) {
+            AppointmentDTO dto = new AppointmentDTO(appointment.get());
+            return Response.status(Response.Status.CREATED).entity(dto).build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @GET
@@ -115,13 +121,13 @@ public class ClientController {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         Client client = clientData.get();
-        //List<Appointment> appointments = client.getAppointments();
-        //  List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
-        // for (Appointment appointment : appointments) {
-        //      appointmentDTOs.add(new AppointmentDTO(appointment));
-        //   }
-        //   return Response.status(200).entity(appointmentDTOs).build(); // TODO: ucnommnect
-        return Response.status(Response.Status.OK).entity(1).build();
+        List<Appointment> appointments = client.getAppointments();
+        List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+        for (Appointment appointment : appointments) {
+            appointmentDTOs.add(new AppointmentDTO(appointment));
+        }
+        return Response.status(200).entity(appointmentDTOs).build(); // TODO: ucnommnect
+        //return Response.status(Response.Status.OK).entity(1).build();
     }
 
 

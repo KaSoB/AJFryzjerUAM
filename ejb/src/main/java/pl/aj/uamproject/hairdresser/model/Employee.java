@@ -4,7 +4,9 @@ import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Employee implements Serializable, IEntity<Employee> {
@@ -14,6 +16,8 @@ public class Employee implements Serializable, IEntity<Employee> {
     private String firstName;
     private String lastName;
 
+    @OneToMany(mappedBy = "employee")
+    private List<Appointment> appointments;
 
     public Employee() {
 
@@ -54,6 +58,14 @@ public class Employee implements Serializable, IEntity<Employee> {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 
     @Override

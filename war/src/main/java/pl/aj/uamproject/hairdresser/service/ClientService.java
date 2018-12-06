@@ -10,7 +10,7 @@ public class ClientService {
     @EJB
     private ClientDAO clientDAO = new ClientDAO();
 
-    public List<Client> getAllClients() {
+    public Optional<List<Client>> getAllClients() {
         return clientDAO.getAll();
     }
 
@@ -18,15 +18,15 @@ public class ClientService {
         return clientDAO.getById(id).get();
     }
 
-    public List<Client> getClientByPhoneNumber(String phoneNumber) {
+    public Optional<List<Client>> getClientByPhoneNumber(String phoneNumber) {
         return clientDAO.getClientByPhoneNumber(phoneNumber);
     }
 
-    public List<Client> getClientByEmail(String email) {
+    public Optional<List<Client>> getClientByEmail(String email) {
         return clientDAO.getClientByEmail(email);
     }
 
-    public List<Client> getClientByLastName(String lastName) {
+    public Optional<List<Client>> getClientByLastName(String lastName) {
         return clientDAO.getClientByLastName(lastName);
     }
 

@@ -2,10 +2,7 @@ package pl.aj.uamproject.hairdresser.model;
 
 import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +16,9 @@ public class Client implements Serializable, IEntity<Client> {
     private String lastName;
     private String email;
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "client")
+    private List<Appointment> appointments;
 
     public Client() {
 
@@ -68,6 +68,14 @@ public class Client implements Serializable, IEntity<Client> {
         return email;
     }
 
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -107,4 +115,6 @@ public class Client implements Serializable, IEntity<Client> {
         this.email = client.email;
         this.phoneNumber = client.phoneNumber;
     }
+
+
 }
