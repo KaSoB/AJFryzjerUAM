@@ -29,46 +29,58 @@ public class ClientController {
 
     @GET
     public Response getAll() {
-        List<Client> items = clientDAO.getAll();
-        List<ClientDTO> dto = mapper.ClientToClientDTO(items);
-
-        return Response.status(200).entity(dto).build();
+        Optional<List<Client>> clientsData = clientDAO.getAll();
+        if(clientsData.isPresent()){
+            List<Client> clients = clientsData.get();
+            List<ClientDTO> dto = mapper.ClientToClientDTO(clients);
+            return Response.status(Response.Status.OK).entity(dto).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @GET
     @Path("{id}")
     public Response getById(@PathParam("id") int id) {
+
         Client item = clientDAO.getById(id).get();
         ClientDTO dto = mapper.ClientToClientDTO(item);
-
-        return Response.status(200).entity(dto).build();
+        return Response.status(Response.Status.OK).entity(dto).build();
     }
 
     @GET
     @Path("phoneNumber/{phoneNumber}")
     public Response getByPhoneNumber(String phoneNumber) {
-        List<Client> item = clientDAO.getClientByPhoneNumber(phoneNumber);
-        List<ClientDTO> dto = mapper.ClientToClientDTO(item);
-
-        return Response.status(200).entity(dto).build();
+        Optional<List<Client>> itemData = clientDAO.getClientByPhoneNumber(phoneNumber);
+        if (itemData.isPresent()) {
+            List<Client> items = itemData.get();
+            List<ClientDTO> dto = mapper.ClientToClientDTO(items);
+            return Response.status(Response.Status.OK).entity(dto).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @GET
     @Path("lastName/{lastName}")
     public Response getByLastName(String lastName) {
-        List<Client> item = clientDAO.getClientByLastName(lastName);
-        List<ClientDTO> dto = mapper.ClientToClientDTO(item);
-
-        return Response.status(200).entity(dto).build();
+        Optional<List<Client>> itemData = clientDAO.getClientByLastName(lastName);
+        if (itemData.isPresent()) {
+            List<Client> items = itemData.get();
+            List<ClientDTO> dto = mapper.ClientToClientDTO(items);
+            return Response.status(Response.Status.OK).entity(dto).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @GET
     @Path("email/{email}")
     public Response getByEmail(String email) {
-        List<Client> item = clientDAO.getClientByEmail(email);
-        List<ClientDTO> dto = mapper.ClientToClientDTO(item);
-
-        return Response.status(200).entity(dto).build();
+        Optional<List<Client>> itemData = clientDAO.getClientByEmail(email);
+        if (itemData.isPresent()) {
+            List<Client> items = itemData.get();
+            List<ClientDTO> dto = mapper.ClientToClientDTO(items);
+            return Response.status(Response.Status.OK).entity(dto).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @POST
@@ -78,7 +90,7 @@ public class ClientController {
         Client entity = mapper.ClientDTOToClient(client);
         Client ret = clientDAO.add(entity);
 
-        return Response.status(201).entity(ret).build();
+        return Response.status(Response.Status.CREATED).entity(ret).build();
     }
 
     @POST
@@ -92,7 +104,7 @@ public class ClientController {
         Client client = clientData.get();
         Appointment appointment = clientDAO.addApointment(client.getId(), new Date(Long.parseLong(date)));
         AppointmentDTO dto = new AppointmentDTO(appointment);
-        return Response.status(201).entity(appointment).build();
+        return Response.status(Response.Status.CREATED).entity(appointment).build();
     }
 
     @GET
@@ -104,12 +116,12 @@ public class ClientController {
         }
         Client client = clientData.get();
         //List<Appointment> appointments = client.getAppointments();
-      //  List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
-       // for (Appointment appointment : appointments) {
-      //      appointmentDTOs.add(new AppointmentDTO(appointment));
-     //   }
-     //   return Response.status(200).entity(appointmentDTOs).build(); // TODO: ucnommnect
-        return Response.status(200).entity(1).build();
+        //  List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
+        // for (Appointment appointment : appointments) {
+        //      appointmentDTOs.add(new AppointmentDTO(appointment));
+        //   }
+        //   return Response.status(200).entity(appointmentDTOs).build(); // TODO: ucnommnect
+        return Response.status(Response.Status.OK).entity(1).build();
     }
 
 
@@ -127,6 +139,6 @@ public class ClientController {
         Client entity = mapper.ClientDTOToClient(client);
         Client ret = clientDAO.update(entity);
 
-        return Response.status(200).entity(1).build();
+        return Response.status(Response.Status.OK).entity(1).build();
     }
 }
