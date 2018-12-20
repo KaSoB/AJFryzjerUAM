@@ -7,52 +7,62 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
 
 @Startup
 @Singleton
 public class EmployeeDAO {
-    private final Set<Employee> database = new HashSet<>();
 
     @PersistenceContext(unitName = "primary")
     protected EntityManager em;
 
-    public EmployeeDAO(){
+    public EmployeeDAO() {
     }
+
     @PostConstruct
-    void init(){
-        database.add(new Employee(1, "Jan", "Kowalski"));
-        database.add(new Employee(2, "Robert", "Nowak"));
-        database.add(new Employee(3, "Sebastian", "Chmielewski"));
-        database.add(new Employee(4, "Piotr", "Gajewski"));
+    void init() {
+        em.persist(new Employee(1, "Jan", "Kowalski"));
+        em.persist(new Employee(2, "Robert", "Nowak"));
+        em.persist(new Employee(3, "Sebastian", "Chmielewski"));
+        em.persist(new Employee(4, "Piotr", "Gajewski"));
     }
 
 
-
-    public Optional<Employee> getById(int id){
-        return database.stream().filter(e -> e.getId() == id).findFirst();
+    public Optional<Employee> getById(int id) {
+        Employee employee = em.
+                createQuery(
+                        "SELECT c FROM Employee e WHERE e.id=:id", Employee.class)
+                .setParameter("id", id)
+                .setMaxResults(1).getSingleResult();
+        return Optional.of(employee);
     }
 
-    public List<Employee> getAll(){
-        return database.stream().sorted(Comparator.comparing(Employee::getId)).collect(Collectors.toList());
+    public Optional<List<Employee>> getAll() {
+        List<Employee> employees = em.
+                createQuery(
+                        "SELECT e FROM Employee E", Employee.class)
+                .getResultList();
+        return Optional.of(employees);
     }
 
-    public Employee add(Employee employee){
-        int id = database.size() + 1; // current size + 1
-        employee.setId(id);
-        database.add(employee);
+    public Employee add(Employee employee) {
+        em.persist(employee);
         return employee;
     }
 
-    public boolean remove(int id){
-        database.clear();
-        return true;
+    public boolean remove(int id) {
+        Optional<Employee> employeeData = getById(id);
+        if (employeeData.isPresent()) {
+            em.remove(employeeData.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public Employee update(Employee item){
-        Optional<Employee> employeeDB = database.stream().filter(it -> it.getId().equals(item.getId())).findFirst();
-        employeeDB.ifPresent(it -> it.update(item));
-        return employeeDB.get(); // TODO: without isPresent, can return null
+    public Employee update(Employee item) {
+        em.merge(item);
+        return item;
     }
 }

@@ -10,6 +10,12 @@ import java.util.List;
 
 @Entity
 public class Employee implements Serializable, IEntity<Employee> {
+
+
+    /*
+    @Version
+    private Long version;*/
+
     @Id
     @GeneratedValue
     private Integer id;

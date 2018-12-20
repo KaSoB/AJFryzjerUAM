@@ -13,8 +13,6 @@ import java.util.*;
 @Startup
 @Singleton
 public class ClientDAO {
-    private final Set<Client> database = new HashSet<>();
-
     @PersistenceContext(unitName = "primary")
     protected EntityManager em;
 
@@ -75,7 +73,7 @@ public class ClientDAO {
     public Optional<Appointment> addApointment(int clientId, Date appointmentDate) {
         Optional<Client> byId = getById(clientId);
         boolean present = byId.isPresent();
-        if(!present) {
+        if (!present) {
             return Optional.empty();
         }
         Client client = byId.get();
@@ -86,19 +84,22 @@ public class ClientDAO {
 
 
     public Client add(Client client) {
-        int id = database.size() + 1; // current size + 1
-        client.setId(id);
-        database.add(client);
+        em.persist(client);
         return client;
     }
 
     public boolean remove(int id) {
-        return database.removeIf(it -> it.getId().equals(id));
+        Optional<Client> userData = getById(id);
+        if (userData.isPresent()) {
+            em.remove(userData.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Client update(Client item) {
-        Optional<Client> clientDB = database.stream().filter(it -> it.getId().equals(item.getId())).findFirst();
-        clientDB.ifPresent(it -> it.update(item));
-        return clientDB.get(); // TODO: without isPresent, can return null
+        em.merge(item);
+        return item;
     }
 }

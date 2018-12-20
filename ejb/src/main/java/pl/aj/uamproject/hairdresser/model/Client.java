@@ -9,6 +9,11 @@ import java.util.List;
 
 @Entity
 public class Client implements Serializable, IEntity<Client> {
+
+/*
+    @Version
+    private Long version;*/
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

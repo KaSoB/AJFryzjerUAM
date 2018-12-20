@@ -10,6 +10,12 @@ import java.util.Date;
 
 @Entity
 public class Appointment implements IEntity<Appointment> {
+
+
+    /*
+    @Version
+    private Long version;*/
+
     @Id
     @GeneratedValue
     private int id;

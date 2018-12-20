@@ -89,11 +89,12 @@ public class ClientController {
     @POST
     @Consumes("application/json; charset=UTF-8")
     @Produces("application/json; charset=UTF-8")
-    public Response add(ClientDTO client) {
+    public Response addClient(ClientDTO client) {
         Client entity = mapper.ClientDTOToClient(client);
         Client ret = clientDAO.add(entity);
+        ClientDTO clientDTO = mapper.ClientToClientDTO(ret);
 
-        return Response.status(Response.Status.CREATED).entity(ret).build();
+        return Response.status(Response.Status.CREATED).entity(clientDTO).build();
     }
 
     @POST
@@ -144,7 +145,8 @@ public class ClientController {
     public Response edit(ClientDTO client) {
         Client entity = mapper.ClientDTOToClient(client);
         Client ret = clientDAO.update(entity);
+        ClientDTO clientDTO = mapper.ClientToClientDTO(ret);
 
-        return Response.status(Response.Status.OK).entity(1).build();
+        return Response.status(Response.Status.OK).entity(clientDTO).build();
     }
 }
