@@ -22,7 +22,7 @@ public class Client implements Serializable, IEntity<Client> {
     private String email;
     private String phoneNumber;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.MERGE)
     private List<Appointment> appointments;
 
     public Client() {
