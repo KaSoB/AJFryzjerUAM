@@ -33,8 +33,7 @@ public class Employee implements Serializable, IEntity<Employee> {
         this.id = id;
     }
 
-    public Employee(Integer id, String firstName, String lastName) {
-        this.id = id;
+    public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

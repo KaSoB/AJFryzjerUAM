@@ -22,10 +22,10 @@ public class EmployeeDAO {
 
     @PostConstruct
     void init() {
-        em.persist(new Employee(1, "Jan", "Kowalski"));
-        em.persist(new Employee(2, "Robert", "Nowak"));
-        em.persist(new Employee(3, "Sebastian", "Chmielewski"));
-        em.persist(new Employee(4, "Piotr", "Gajewski"));
+        em.persist(new Employee( "Jan", "Kowalski"));
+        em.persist(new Employee("Robert", "Nowak"));
+        em.persist(new Employee( "Sebastian", "Chmielewski"));
+        em.persist(new Employee( "Piotr", "Gajewski"));
     }
 
 
