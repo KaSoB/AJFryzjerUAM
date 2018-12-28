@@ -39,20 +39,10 @@
             <artifactId>javaee-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.4</version>
-        </dependency>
-        <dependency>
             <groupId>pl.aj.uamproject.hairdresser</groupId>
             <artifactId>ejb</artifactId>
             <version>1.0.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.modelmapper</groupId>
-            <artifactId>modelmapper</artifactId>
-            <version>2.3.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>

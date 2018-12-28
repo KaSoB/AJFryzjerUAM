@@ -1,12 +1,28 @@
 package pl.aj.uamproject.hairdresser.model;
-import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
-import java.io.Serializable;
 
-public class Employee implements Serializable, IEntity<Employee> {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.List;
+
+@Entity
+public class Employee implements Serializable {
+
+
+    /*
+    @Version
+    private Long version;*/
+
+    @Id
+    @GeneratedValue
     private Integer id;
     private String firstName;
     private String lastName;
 
+    @OneToMany(mappedBy = "employee")
+    private List<Appointment> appointments;
 
     public Employee() {
 
@@ -16,6 +32,10 @@ public class Employee implements Serializable, IEntity<Employee> {
         this.id = id;
     }
 
+    public Employee(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
     public Employee(Integer id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
@@ -47,6 +67,14 @@ public class Employee implements Serializable, IEntity<Employee> {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 
     @Override

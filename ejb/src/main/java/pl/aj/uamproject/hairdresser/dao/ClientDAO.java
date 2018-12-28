@@ -1,76 +1,91 @@
 package pl.aj.uamproject.hairdresser.dao;
 
-import pl.aj.uamproject.hairdresser.infrastructure.DAO;
 import pl.aj.uamproject.hairdresser.model.Appointment;
 import pl.aj.uamproject.hairdresser.model.Client;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Startup
 @Singleton
 public class ClientDAO {
-    private final Set<Client> database = new HashSet<>();
+    @PersistenceContext(unitName = "primary")
+    protected EntityManager em;
 
     public ClientDAO() {
     }
 
     @PostConstruct
     void init() {
-        database.add(new Client(1, "Jan", "Kowalski", "jankowal@vp.pl", "698488394"));
-        database.add(new Client(2, "Robert", "Nowak", "robert@onet.pl", "123456789"));
-        database.add(new Client(3, "Sebastian", "Chmielewski", "chmielewskipolska@vp.pl", "569845316"));
-        database.add(new Client(4, "Piotr", "Gajewski", "GajPiotr@vp.pl", "745896321"));
-        database.add(new Client(5, "Wiktoria", "Nowak", "nowak.wikotria@vp.pl", "986532147"));
+        em.persist(new Client("Jan", "Kowalski", "jankowal@vp.pl", "698488394"));
+        em.persist(new Client("Robert", "Nowak", "robert@onet.pl", "123456789"));
+        em.persist(new Client("Sebastian", "Chmielewski", "chmielewskipolska@vp.pl", "569845316"));
+        em.persist(new Client("Piotr", "Gajewski", "GajPiotr@vp.pl", "745896321"));
+        em.persist(new Client("Wiktoria", "Nowak", "nowak.wikotria@vp.pl", "986532147"));
     }
 
-    public List<Client> getClientByPhoneNumber(String phoneNumber) {
-        return database.stream().filter(e -> e.getPhoneNumber().equals(phoneNumber)).sorted(Comparator.comparing(Client::getId)).collect(Collectors.toList());
+    public Optional<List<Client>> getClientByPhoneNumber(String phoneNumber) {
+        List<Client> clients = em.
+                createQuery(
+                        "SELECT c FROM Client c WHERE c.phoneNumber=:phoneNumber", Client.class)
+                .setParameter("phoneNumber", phoneNumber).getResultList();
+        return Optional.of(clients);
     }
 
-    public List<Client> getClientByEmail(String email) {
-        return database.stream().filter(e -> e.getPhoneNumber().equals(email)).sorted(Comparator.comparing(Client::getId)).collect(Collectors.toList());
+    public Optional<List<Client>> getClientByEmail(String email) {
+        List<Client> clients = em.
+                createQuery(
+                        "SELECT c FROM Client c WHERE c.email=:email", Client.class)
+                .setParameter("email", email).getResultList();
+        return Optional.of(clients);
     }
 
-    public List<Client> getClientByLastName(String lastName) {
-        return database.stream().filter(e -> e.getLastName().equals(lastName)).sorted(Comparator.comparing(Client::getId)).collect(Collectors.toList());
+    public Optional<List<Client>> getClientByLastName(String lastName) {
+        List<Client> clients = em.
+                createQuery(
+                        "SELECT c FROM Client c WHERE c.lastname=:lastname", Client.class)
+                .setParameter("lastName", lastName).getResultList();
+        return Optional.of(clients);
     }
-
 
     public Optional<Client> getById(int id) {
-        return database.stream().filter(e -> e.getId() == id).findFirst();
+        Client client = em.
+                createQuery(
+                        "SELECT c FROM Client c WHERE c.id=:id", Client.class)
+                .setParameter("id", id)
+                .setMaxResults(1).getSingleResult();
+        return Optional.of(client);
     }
 
-    public List<Client> getAll() {
-        return database.stream().sorted(Comparator.comparing(Client::getId)).collect(Collectors.toList());
+    public Optional<List<Client>> getAll() {
+        List<Client> clients = em.
+                createQuery(
+                        "SELECT c FROM Client c", Client.class)
+                .getResultList();
+        return Optional.of(clients);
     }
-
-    public Appointment addApointment(int clientId, Date appointmentDate) {
-        Optional<Client> byId = getById(clientId);
-        Client client = byId.get();
-        Appointment appointment = new Appointment(client, appointmentDate);
-        client.getAppointments().add(appointment);
-        return appointment;
-    }
-
 
     public Client add(Client client) {
-        int id = database.size() + 1; // current size + 1
-        client.setId(id);
-        database.add(client);
+        em.persist(client);
         return client;
     }
 
     public boolean remove(int id) {
-        return database.removeIf(it -> it.getId().equals(id));
+        Optional<Client> userData = getById(id);
+        if (userData.isPresent()) {
+            em.remove(userData.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Client update(Client item) {
-        Optional<Client> clientDB = database.stream().filter(it -> it.getId().equals(item.getId())).findFirst();
-        clientDB.ifPresent(it -> it.update(item));
-        return clientDB.get(); // TODO: without isPresent, can return null
+        em.merge(item);
+        return item;
     }
 }

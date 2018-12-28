@@ -6,6 +6,7 @@ import pl.aj.uamproject.hairdresser.model.Client;
 import pl.aj.uamproject.hairdresser.service.ClientService;
 
 import java.util.List;
+import java.util.Optional;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,8 +17,8 @@ class ClientServiceTest {
 
     @Test
     void getAllClients() {
-        List<Client> allClients = clientService.getAllClients();
-        assertEquals(0, allClients.size());
+        Optional<List<Client>> allClients = clientService.getAllClients();
+        assertEquals(0, allClients.get());
     }
 //
 //    @Test

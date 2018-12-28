@@ -1,19 +1,26 @@
 package pl.aj.uamproject.hairdresser.model;
 
-import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
-
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-public class Client implements Serializable, IEntity<Client> {
+@Entity
+public class Client implements Serializable{
 
+/*
+    @Version
+    private Long version;*/
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
-    private List<Appointment> appointments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.MERGE)
+    private List<Appointment> appointments;
 
     public Client() {
 
@@ -23,7 +30,14 @@ public class Client implements Serializable, IEntity<Client> {
         this.id = id;
     }
 
-    public Client(Integer id, String firstName, String lastName, String email, String phoneNumber) {
+    public Client(String firstName, String lastName, String email, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Client(int id, String firstName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,6 +70,14 @@ public class Client implements Serializable, IEntity<Client> {
         return email;
     }
 
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -72,9 +94,6 @@ public class Client implements Serializable, IEntity<Client> {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -97,6 +116,7 @@ public class Client implements Serializable, IEntity<Client> {
         this.lastName = client.lastName;
         this.email = client.email;
         this.phoneNumber = client.phoneNumber;
-        this.appointments = client.appointments;
     }
+
+
 }
