@@ -105,12 +105,13 @@ public class ClientController {
         if (!clientData.isPresent()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        Client client = clientData.get();
-        Optional<Appointment> appointment = clientDAO.addApointment(client.getId(), new Date(Long.parseLong(date)));
-        if (appointment.isPresent()) {
-            AppointmentDTO dto = new AppointmentDTO(appointment.get());
-            return Response.status(Response.Status.CREATED).entity(dto).build();
-        }
+        // TODO uncomment
+//        Client client = clientData.get();
+//        Optional<Appointment> appointment = clientDAO.addApointment(client.getId(), new Date(Long.parseLong(date)));
+//        if (appointment.isPresent()) {
+//            AppointmentDTO dto = new AppointmentDTO(appointment.get());
+//            return Response.status(Response.Status.CREATED).entity(dto).build();
+//        }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
 

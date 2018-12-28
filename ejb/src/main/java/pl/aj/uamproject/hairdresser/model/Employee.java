@@ -1,5 +1,4 @@
 package pl.aj.uamproject.hairdresser.model;
-import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Employee implements Serializable, IEntity<Employee> {
+public class Employee implements Serializable {
 
 
     /*
@@ -34,6 +33,11 @@ public class Employee implements Serializable, IEntity<Employee> {
     }
 
     public Employee(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    public Employee(Integer id, String firstName, String lastName) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }

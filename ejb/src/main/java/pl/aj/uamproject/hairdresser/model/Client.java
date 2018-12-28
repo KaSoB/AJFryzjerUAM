@@ -1,14 +1,11 @@
 package pl.aj.uamproject.hairdresser.model;
 
-import pl.aj.uamproject.hairdresser.infrastructure.IEntity;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Client implements Serializable, IEntity<Client> {
+public class Client implements Serializable{
 
 /*
     @Version

@@ -22,17 +22,17 @@ public class EmployeeDAO {
 
     @PostConstruct
     void init() {
-        em.persist(new Employee( "Jan", "Kowalski"));
-        em.persist(new Employee("Robert", "Nowak"));
-        em.persist(new Employee( "Sebastian", "Chmielewski"));
-        em.persist(new Employee( "Piotr", "Gajewski"));
+        em.persist(new Employee("Damian", "Walczak"));
+        em.persist(new Employee("Franciszek ", "Romanowski"));
+        em.persist(new Employee("Pawel", "Jankowski"));
+        em.persist(new Employee("Krzysztof", "Nowicki"));
     }
 
 
     public Optional<Employee> getById(int id) {
         Employee employee = em.
                 createQuery(
-                        "SELECT c FROM Employee e WHERE e.id=:id", Employee.class)
+                        "SELECT e FROM Employee e WHERE e.id=:id", Employee.class)
                 .setParameter("id", id)
                 .setMaxResults(1).getSingleResult();
         return Optional.of(employee);
