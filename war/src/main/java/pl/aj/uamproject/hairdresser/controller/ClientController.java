@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Path("client")
+@Consumes("application/json; charset=UTF-8")
 @Produces("application/json; charset=UTF-8")
 @RequestScoped
 public class ClientController {
@@ -69,7 +70,7 @@ public class ClientController {
 
     @GET
     @Path("phoneNumber/{phoneNumber}")
-    public Response getByPhoneNumber(String phoneNumber) {
+    public Response getByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
         Optional<List<Client>> itemData = clientDAO.getClientByPhoneNumber(phoneNumber);
         if (itemData.isPresent()) {
             List<Client> items = itemData.get();
@@ -82,7 +83,7 @@ public class ClientController {
 
     @GET
     @Path("lastName/{lastName}")
-    public Response getByLastName(String lastName) {
+    public Response getByLastName(@PathParam("lastName") String lastName) {
         Optional<List<Client>> itemData = clientDAO.getClientByLastName(lastName);
         if (itemData.isPresent()) {
             List<Client> items = itemData.get();
@@ -95,7 +96,7 @@ public class ClientController {
 
     @GET
     @Path("email/{email}")
-    public Response getByEmail(String email) {
+    public Response getByEmail(@PathParam("email") String email) {
         Optional<List<Client>> itemData = clientDAO.getClientByEmail(email);
         if (itemData.isPresent()) {
             List<Client> items = itemData.get();
@@ -107,8 +108,6 @@ public class ClientController {
     }
 
     @POST
-    @Consumes("application/json; charset=UTF-8")
-    @Produces("application/json; charset=UTF-8")
     public Response addClient(ClientDTO client) {
         Client entity = mapper.ClientDTOToClient(client);
         Client ret = clientDAO.add(entity);
@@ -117,36 +116,14 @@ public class ClientController {
         return Response.status(Response.Status.CREATED).entity(clientDTO).build();
     }
 
-
-
-    @GET
-    @Path("{id}/appointments")
-    public Response getByLastName(int clientId) {
-        Optional<Client> clientData = clientDAO.getById(clientId);
-        if (!clientData.isPresent()) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        Client client = clientData.get();
-        List<Appointment> appointments = client.getAppointments();
-        List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
-//        for (Appointment appointment : appointments) {//TODO:uncomment
-//            appointmentDTOs.add(new AppointmentDTO(appointment));
-//        }
-        return Response.status(200).entity(appointmentDTOs).build(); // TODO: ucnommnect
-        //return Response.status(Response.Status.OK).entity(1).build();
-    }
-
-
     @DELETE
     @Path("{id}")
-    @Produces("application/json; charset=UTF-8")
     public Response remove(@PathParam("id") int id) {
         clientDAO.remove(id);
         return Response.status(204).build();
     }
 
     @PUT
-    @Produces("application/json; charset=UTF-8")
     public Response edit(ClientDTO client) {
         Client entity = mapper.ClientDTOToClient(client);
         Client ret = clientDAO.update(entity);
