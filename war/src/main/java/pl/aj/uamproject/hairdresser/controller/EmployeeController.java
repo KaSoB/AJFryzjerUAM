@@ -1,5 +1,6 @@
 package pl.aj.uamproject.hairdresser.controller;
 
+import pl.aj.uamproject.hairdresser.dao.AppointmentDAO;
 import pl.aj.uamproject.hairdresser.dao.EmployeeDAO;
 import pl.aj.uamproject.hairdresser.dto.AppointmentDTO;
 import pl.aj.uamproject.hairdresser.dto.EmployeeDTO;
@@ -22,6 +23,8 @@ import java.util.Optional;
 public class EmployeeController {
     @EJB
     private EmployeeDAO employeeDAO = new EmployeeDAO();
+    @EJB
+    private AppointmentDAO appointmentDAO = new AppointmentDAO();
     private Mapper mapper = new Mapper();
     @GET
     public Response getAll() {
@@ -32,6 +35,19 @@ public class EmployeeController {
         List<Employee> items =  data.get();
         List<EmployeeDTO> dto = new ArrayList<>();
         items.forEach(it -> dto.add(mapper.EmployeeToEmployeeDTO(it)));
+        return Response.status(Response.Status.OK).entity(dto).build();
+    }
+
+    @GET
+    @Path("{id}/appointment")
+    public Response getAppointmentsByClientId(@PathParam("id") int id) {
+        Optional<List<Appointment>> data = appointmentDAO.getByEmployeeId(id);
+        if (!data.isPresent()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        List<Appointment> items = data.get();
+        List<AppointmentDTO> dto = new ArrayList<>();
+        items.forEach(it -> dto.add(mapper.AppointmentToAppointmentDTO(it)));
         return Response.status(Response.Status.OK).entity(dto).build();
     }
 

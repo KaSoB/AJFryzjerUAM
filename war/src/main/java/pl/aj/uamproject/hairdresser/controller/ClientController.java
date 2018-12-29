@@ -1,13 +1,12 @@
 package pl.aj.uamproject.hairdresser.controller;
 
+import pl.aj.uamproject.hairdresser.dao.AppointmentDAO;
 import pl.aj.uamproject.hairdresser.dao.ClientDAO;
 import pl.aj.uamproject.hairdresser.dto.AppointmentDTO;
 import pl.aj.uamproject.hairdresser.dto.ClientDTO;
 import pl.aj.uamproject.hairdresser.dto.Mapper;
 import pl.aj.uamproject.hairdresser.model.Appointment;
 import pl.aj.uamproject.hairdresser.model.Client;
-import pl.aj.uamproject.hairdresser.service.ClientService;
-
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
@@ -25,6 +24,9 @@ import java.util.Optional;
 public class ClientController {
     @EJB
     private ClientDAO clientDAO = new ClientDAO();
+    @EJB
+    private AppointmentDAO appointmentDAO = new AppointmentDAO();
+
     private Mapper mapper = new Mapper();
 
     @GET
@@ -38,6 +40,20 @@ public class ClientController {
         }
         return Response.status(Response.Status.NOT_FOUND).build();
     }
+
+    @GET
+    @Path("{id}/appointment")
+    public Response getAppointmentsByClientId(@PathParam("id") int id) {
+        Optional<List<Appointment>> clientsData = appointmentDAO.getByClientId(id);
+        if (!clientsData.isPresent()) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        List<Appointment> items = clientsData.get();
+        List<AppointmentDTO> dto = new ArrayList<>();
+        items.forEach(it -> dto.add(mapper.AppointmentToAppointmentDTO(it)));
+        return Response.status(Response.Status.OK).entity(dto).build();
+    }
+
 
     @GET
     @Path("{id}")
@@ -101,23 +117,7 @@ public class ClientController {
         return Response.status(Response.Status.CREATED).entity(clientDTO).build();
     }
 
-    @POST
-    @Consumes("application/json; charset=UTF-8")
-    @Produces("application/json; charset=UTF-8")
-    public Response addAppointment(int clientId, String date) {
-        Optional<Client> clientData = clientDAO.getById(clientId);
-        if (!clientData.isPresent()) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        // TODO uncomment
-//        Client client = clientData.get();
-//        Optional<Appointment> appointment = clientDAO.addApointment(client.getId(), new Date(Long.parseLong(date)));
-//        if (appointment.isPresent()) {
-//            AppointmentDTO dto = new AppointmentDTO(appointment.get());
-//            return Response.status(Response.Status.CREATED).entity(dto).build();
-//        }
-        return Response.status(Response.Status.BAD_REQUEST).build();
-    }
+
 
     @GET
     @Path("{id}/appointments")
@@ -141,7 +141,7 @@ public class ClientController {
     @Path("{id}")
     @Produces("application/json; charset=UTF-8")
     public Response remove(@PathParam("id") int id) {
-        clientDAO.remove(id); // TODO: use return value
+        clientDAO.remove(id);
         return Response.status(204).build();
     }
 

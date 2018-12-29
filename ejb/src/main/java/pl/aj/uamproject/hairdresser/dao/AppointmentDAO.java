@@ -34,6 +34,24 @@ public class AppointmentDAO {
         return Optional.of(appointment);
     }
 
+    public Optional<List<Appointment>> getByClientId(int id){
+        List<Appointment> items = em.
+                createQuery(
+                        "SELECT c FROM Appointment c WHERE c.client.id=:id", Appointment.class)
+                .setParameter("id", id)
+                .getResultList();
+        return Optional.of(items);
+    }
+
+    public Optional<List<Appointment>> getByEmployeeId(int id){
+        List<Appointment> items = em.
+                createQuery(
+                        "SELECT c FROM Appointment c WHERE c.employee.id=:id", Appointment.class)
+                .setParameter("id", id)
+                .getResultList();
+        return Optional.of(items);
+    }
+
     public Optional<List<Appointment>> getAll() {
         List<Appointment> items = em.
                 createQuery(
