@@ -13,11 +13,9 @@ public class Appointment implements Serializable {
     @Id
     @GeneratedValue
     private int id;
+
     private Date appointmentDate;
 
-    private Date appointmentCreate;
-
-    private boolean isCancelled;
 
     @ManyToOne
     private Client client;
@@ -26,25 +24,14 @@ public class Appointment implements Serializable {
     private Employee employee;
 
     public Appointment() {
+
     }
 
-    public Appointment(int id) {
+    public Appointment(int id, Client client, Employee employee, Date appointmentDate ) {
         this.id = id;
-    }
-
-    public Appointment(Client client, Date appointmentDate, Date appointmentCreate, boolean isCancelled) {
+        this.employee = employee;
         this.client = client;
         this.appointmentDate = appointmentDate;
-        this.appointmentCreate = appointmentCreate;
-        this.isCancelled = isCancelled;
-    }
-
-    public boolean getCancelled() {
-        return isCancelled;
-    }
-
-    public void setCancelled(boolean value) {
-        this.isCancelled = value;
     }
 
     public int getId() {
@@ -63,13 +50,6 @@ public class Appointment implements Serializable {
         this.appointmentDate = appointmentDate;
     }
 
-    public Date getAppointmentCreate() {
-        return appointmentCreate;
-    }
-
-    public void setAppointmentCreate(Date appointmentCreate) {
-        this.appointmentCreate = appointmentCreate;
-    }
 
     public Client getClient() {
         return client;
@@ -87,11 +67,4 @@ public class Appointment implements Serializable {
         this.employee = employee;
     }
 
-    public void update(Appointment appointment) {
-        this.id = appointment.id;
-        this.client = appointment.client;
-        this.appointmentDate = appointment.appointmentDate;
-        this.appointmentCreate = appointment.appointmentCreate;
-        this.isCancelled = appointment.isCancelled;
-    }
 }
