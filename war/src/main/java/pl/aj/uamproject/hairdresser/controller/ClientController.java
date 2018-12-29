@@ -31,8 +31,9 @@ public class ClientController {
     public Response getAll() {
         Optional<List<Client>> clientsData = clientDAO.getAll();
         if (clientsData.isPresent()) {
-            List<Client> clients = clientsData.get();
-            List<ClientDTO> dto = mapper.ClientToClientDTO(clients);
+            List<Client> items = clientsData.get();
+            List<ClientDTO> dto = new ArrayList<>();
+            items.forEach(it -> dto.add(mapper.ClientToClientDTO(it)));
             return Response.status(Response.Status.OK).entity(dto).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -56,7 +57,8 @@ public class ClientController {
         Optional<List<Client>> itemData = clientDAO.getClientByPhoneNumber(phoneNumber);
         if (itemData.isPresent()) {
             List<Client> items = itemData.get();
-            List<ClientDTO> dto = mapper.ClientToClientDTO(items);
+            List<ClientDTO> dto = new ArrayList<>();
+            items.forEach(it -> dto.add(mapper.ClientToClientDTO(it)));
             return Response.status(Response.Status.OK).entity(dto).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -68,7 +70,8 @@ public class ClientController {
         Optional<List<Client>> itemData = clientDAO.getClientByLastName(lastName);
         if (itemData.isPresent()) {
             List<Client> items = itemData.get();
-            List<ClientDTO> dto = mapper.ClientToClientDTO(items);
+            List<ClientDTO> dto = new ArrayList<>();
+            items.forEach(it -> dto.add(mapper.ClientToClientDTO(it)));
             return Response.status(Response.Status.OK).entity(dto).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -80,7 +83,8 @@ public class ClientController {
         Optional<List<Client>> itemData = clientDAO.getClientByEmail(email);
         if (itemData.isPresent()) {
             List<Client> items = itemData.get();
-            List<ClientDTO> dto = mapper.ClientToClientDTO(items);
+            List<ClientDTO> dto = new ArrayList<>();
+            items.forEach(it -> dto.add(mapper.ClientToClientDTO(it)));
             return Response.status(Response.Status.OK).entity(dto).build();
         }
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -125,9 +129,9 @@ public class ClientController {
         Client client = clientData.get();
         List<Appointment> appointments = client.getAppointments();
         List<AppointmentDTO> appointmentDTOs = new ArrayList<>();
-        for (Appointment appointment : appointments) {
-            appointmentDTOs.add(new AppointmentDTO(appointment));
-        }
+//        for (Appointment appointment : appointments) {//TODO:uncomment
+//            appointmentDTOs.add(new AppointmentDTO(appointment));
+//        }
         return Response.status(200).entity(appointmentDTOs).build(); // TODO: ucnommnect
         //return Response.status(Response.Status.OK).entity(1).build();
     }

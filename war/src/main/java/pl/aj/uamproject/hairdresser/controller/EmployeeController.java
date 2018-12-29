@@ -1,14 +1,17 @@
 package pl.aj.uamproject.hairdresser.controller;
 
 import pl.aj.uamproject.hairdresser.dao.EmployeeDAO;
+import pl.aj.uamproject.hairdresser.dto.AppointmentDTO;
 import pl.aj.uamproject.hairdresser.dto.EmployeeDTO;
 import pl.aj.uamproject.hairdresser.dto.Mapper;
+import pl.aj.uamproject.hairdresser.model.Appointment;
 import pl.aj.uamproject.hairdresser.model.Employee;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +29,9 @@ public class EmployeeController {
         if (!data.isPresent()) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        List<Employee> entities = data.get();
-        List<EmployeeDTO> dto = mapper.EmployeeToEmployeeDTO(entities);
+        List<Employee> items =  data.get();
+        List<EmployeeDTO> dto = new ArrayList<>();
+        items.forEach(it -> dto.add(mapper.EmployeeToEmployeeDTO(it)));
         return Response.status(Response.Status.OK).entity(dto).build();
     }
 
@@ -53,7 +57,7 @@ public class EmployeeController {
     @POST
     public Response add(EmployeeDTO employee) {
         Employee entity = mapper.EmployeeDTOToEmployee(employee);
-        Employee ret = employeeDAO.update(entity);
+        Employee ret = employeeDAO.add(entity);
         EmployeeDTO dto = mapper.EmployeeToEmployeeDTO(ret);
 
         return Response.status(Response.Status.CREATED).entity(dto).build();

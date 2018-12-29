@@ -1,26 +1,32 @@
 package pl.aj.uamproject.hairdresser.service.email;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
+import pl.aj.uamproject.hairdresser.model.Appointment;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class EmailService {
-    private SMTPServer server = new SMTPServer();
-    private EmailConfig config = new EmailConfig();
-    public EmailService() {
-    }
+    private static String fileNameConfig = "C:\\config.xml";
 
-    public void sendEmail(String toAddress, String subject, String message){
+    private SMTPServer server = new SMTPServer();
+    private Configuration config = new Configuration(fileNameConfig);
+
+    public void sendEmail(String toAddress, Date appointmentDate){
         try{
             String host = config.getHost();
             String port = config.getPort();
             String userName = config.getUserName();
             String password = config.getPassword();
-            server.sendEmail(host,port,userName,password,toAddress,subject,message);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            String appointmentDateStr = dateFormat.format(appointmentDate);
+
+            String subject = config.getSubjectTemplate().replace(config.getDateKey(),appointmentDateStr);
+            String message = config.getMessageTemplate().replace(config.getDateKey(),appointmentDateStr);
+            // On production, replace config.getDebugEmail() with toAddress attribute
+            server.sendEmail(host,port,userName,password, config.getDebugEmail(), subject,message);
         } catch (Exception e){
-            e.printStackTrace(); // TODO:
+            e.printStackTrace();
         }
     }
-
 }

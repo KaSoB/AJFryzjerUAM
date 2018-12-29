@@ -1,23 +1,34 @@
 package pl.aj.uamproject.hairdresser.dto;
 
-import pl.aj.uamproject.hairdresser.model.Appointment;
-
 import java.util.Date;
 
 public class AppointmentDTO {
-    private final Integer id;
-    private final Date appointmentDate;
+    private Integer id;
+    private Long appointmentDate;
+    private EmployeeDTO employee;
+    private ClientDTO client;
 
-    public AppointmentDTO(Appointment appointment) {
-        this.id = appointment.getId();
-        this.appointmentDate = appointment.getAppointmentDate();
+    public AppointmentDTO(){
+
+    }
+
+    public AppointmentDTO(Integer id, Long appointmentDate, EmployeeDTO employee, ClientDTO client) {
+         this.id = id;
+         this.appointmentDate = appointmentDate;
+         this.employee = employee;
+         this.client = client;
     }
 
     public Integer getId() {
         return id;
     }
-
-    public Date getAppointmentDate() {
+    public Long getAppointmentDate() {
         return appointmentDate;
+    }
+    public EmployeeDTO getEmployee() {
+        return employee;
+    }
+    public ClientDTO getClient() {
+        return client;
     }
 }
