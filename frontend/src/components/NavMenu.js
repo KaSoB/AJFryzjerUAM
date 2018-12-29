@@ -13,7 +13,7 @@ export class NavMenu extends Component {
         <Navbar.Header>
           <Navbar.Brand>
             <Link to={'/'}>
-              <Glyphicon glyph='home' /> Salon Fryzjerski
+              <Glyphicon glyph='heart'/>  Salon Fryzjerski
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
@@ -25,14 +25,19 @@ export class NavMenu extends Component {
                 <Glyphicon glyph='home' /> Home
               </NavItem>
             </LinkContainer>
+            <LinkContainer to={'/appointment'}>
+              <NavItem>
+                <Glyphicon glyph='calendar' /> Appointments
+              </NavItem>
+            </LinkContainer>
             <LinkContainer to={'/client'}>
               <NavItem>
-                <Glyphicon glyph='education' /> Clients
+                <Glyphicon glyph='user' /> Clients
               </NavItem>
             </LinkContainer>
             <LinkContainer to={'/employee'}>
               <NavItem>
-                <Glyphicon glyph='th-list' /> Employees
+                <Glyphicon glyph='user' /> Employees
               </NavItem>
             </LinkContainer>
           </Nav>

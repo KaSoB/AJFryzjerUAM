@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, ButtonGroup } from 'react-bootstrap';
 
-export class List extends Component {
-    displayName = List.name
+class ClientList extends Component {
+    displayName = ClientList.name
     constructor(props) {
         super(props);
         this.remove = this.remove.bind(this);
@@ -17,16 +17,19 @@ export class List extends Component {
             .then(res => {
                 this.setState({ items: res.data });
             })
+            .catch(it => {
+                alert("Błąd serwera " + it)
+            })
     }
 
     remove = (id) => {
-        axios.delete(`/${id}`)
+        axios.delete(`http://localhost:8080/war/client/${id}`)
             .then(res => {
-                alert("Usunięto produkt o id " + id)
+                alert("Usunięto item o id " + id)
                 window.location.reload();
             })
             .catch(it => {
-                console.log(it);
+                alert("Błąd serwera " + it)
             })
     }
     render() {
@@ -49,7 +52,7 @@ export class List extends Component {
                             <td>{item.id}</td>
                             <td>{item.firstName}</td>
                             <td>{item.lastName}</td>
-                            <td  >{item.email}</td>
+                            <td>{item.email}</td>
                             <td>{item.phoneNumber}</td>
                             <td>
                                 <ButtonGroup vertical block>
@@ -70,3 +73,5 @@ export class List extends Component {
         );
     }
 }
+
+export default ClientList;
