@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Table, Button, ButtonGroup } from 'react-bootstrap';
 
-class ClientList extends Component {
-    displayName = ClientList.name
+class EmployeeList extends Component {
+    displayName = EmployeeList.name
     constructor(props) {
         super(props);
         this.remove = this.remove.bind(this);
@@ -13,7 +13,7 @@ class ClientList extends Component {
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:8080/war/client`)
+        axios.get(`http://localhost:8080/war/employee`)
             .then(res => {
                 this.setState({ items: res.data });
             })
@@ -23,7 +23,7 @@ class ClientList extends Component {
     }
 
     remove = (id) => {
-        axios.delete(`http://localhost:8080/war/client/${id}`)
+        axios.delete(`http://localhost:8080/war/employee/${id}`)
             .then(res => {
                 alert("Usunięto item o id " + id)
                 window.location.reload();
@@ -40,8 +40,6 @@ class ClientList extends Component {
                         <th>#</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -52,11 +50,9 @@ class ClientList extends Component {
                             <td>{item.id}</td>
                             <td>{item.firstName}</td>
                             <td>{item.lastName}</td>
-                            <td>{item.email}</td>
-                            <td>{item.phoneNumber}</td>
                             <td>
                                 <ButtonGroup vertical block>
-                                    <Button  bsSize="xsmall" bsStyle="warning" href={"/Client/Update/" + item.id}>
+                                    <Button  bsSize="xsmall" bsStyle="warning" href={"/Employee/Update/" + item.id}>
                                         Update
                                     </Button>
 
@@ -73,4 +69,4 @@ class ClientList extends Component {
     }
 }
 
-export default ClientList;
+export default EmployeeList;

@@ -12,8 +12,8 @@ function FieldGroup({ id, label, help, ...props }) {
     );
 }
 
-export class ClientCreate extends Component {
-    displayName = ClientCreate.name
+export class EmployeeCreate extends Component {
+    displayName = EmployeeCreate.name
   
     constructor(props) {
         super(props);
@@ -42,12 +42,10 @@ export class ClientCreate extends Component {
 
         const params = {
             firstName: e.target.firstName.value,
-            lastName: e.target.lastName.value,
-            phoneNumber: e.target.phoneNumber.value,
-            email: e.target.email.value,
+            lastName: e.target.lastName.value
         };
 
-        axios.post('http://localhost:8080/war/client', params, {
+        axios.post('http://localhost:8080/war/employee', params, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -55,8 +53,7 @@ export class ClientCreate extends Component {
         }).then((res) => {
             this.handleAlert()
         }).catch((error) => {
-            alert('Błąd!');
-            console.log(error);
+            alert('Błąd! ' + error);
         })
     }
 
@@ -86,18 +83,6 @@ export class ClientCreate extends Component {
                             id="lastName"
                             type="text"
                             label="Last name"
-                            required
-                            placeholder="Enter text" />
-                        <FieldGroup
-                            id="email"
-                            type="email"
-                            label="Email address"
-                            required
-                            placeholder="Enter text" />
-                        <FieldGroup
-                            id="phoneNumber"
-                            type="text"
-                            label="Phone Number"
                             required
                             placeholder="Enter text" />
                         <FormControl.Feedback />
