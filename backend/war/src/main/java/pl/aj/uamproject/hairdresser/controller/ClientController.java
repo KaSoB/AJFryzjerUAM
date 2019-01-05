@@ -7,6 +7,7 @@ import pl.aj.uamproject.hairdresser.dto.ClientDTO;
 import pl.aj.uamproject.hairdresser.dto.Mapper;
 import pl.aj.uamproject.hairdresser.model.Appointment;
 import pl.aj.uamproject.hairdresser.model.Client;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
@@ -108,9 +109,9 @@ public class ClientController {
     }
 
     @POST
+    @Path("")
     public Response addClient(ClientDTO client) {
-        Client entity = mapper.ClientDTOToClient(client);
-        Client ret = clientDAO.add(entity);
+        Client ret = clientDAO.add(new Client(client.getFirstName(), client.getLastName(), client.getEmail(), client.getPhoneNumber()));
         ClientDTO clientDTO = mapper.ClientToClientDTO(ret);
 
         return Response.status(Response.Status.CREATED).entity(clientDTO).build();

@@ -27,8 +27,14 @@ public class Appointment implements Serializable {
 
     }
 
-    public Appointment(int id, Client client, Employee employee, Date appointmentDate ) {
+    public Appointment(int id, Client client, Employee employee, Date appointmentDate) {
         this.id = id;
+        this.employee = employee;
+        this.client = client;
+        this.appointmentDate = appointmentDate;
+    }
+
+    public Appointment(Client client, Employee employee, Date appointmentDate) {
         this.employee = employee;
         this.client = client;
         this.appointmentDate = appointmentDate;

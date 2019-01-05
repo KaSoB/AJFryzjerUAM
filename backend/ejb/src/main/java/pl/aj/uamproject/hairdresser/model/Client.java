@@ -2,6 +2,7 @@ package pl.aj.uamproject.hairdresser.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ public class Client implements Serializable{
     private String phoneNumber;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.MERGE)
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
 
     public Client() {
 
