@@ -70,6 +70,23 @@ public class ClientController {
     }
 
     @GET
+    @Path("{id}/discount")
+    public Response hasDiscount(@PathParam("id") int id) {
+        Optional<Client> clientData = clientDAO.getById(id);
+        if (!clientData.isPresent()) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        Client client = clientData.get();
+        int size = client.getAppointments().size();
+        if (size > 0) {
+            if (size % 10 == 0) {
+                Response.status(Response.Status.OK).entity(true).build();
+            }
+        }
+        return Response.status(Response.Status.OK).entity(false).build();
+    }
+
+    @GET
     @Path("phoneNumber/{phoneNumber}")
     public Response getByPhoneNumber(@PathParam("phoneNumber") String phoneNumber) {
         Optional<List<Client>> itemData = clientDAO.getClientByPhoneNumber(phoneNumber);
