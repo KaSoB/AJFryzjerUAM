@@ -7,6 +7,7 @@ import pl.aj.uamproject.hairdresser.dto.ClientDTO;
 import pl.aj.uamproject.hairdresser.dto.Mapper;
 import pl.aj.uamproject.hairdresser.model.Appointment;
 import pl.aj.uamproject.hairdresser.model.Client;
+import pl.aj.uamproject.hairdresser.service.DiscountService;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -30,7 +31,7 @@ public class ClientController {
     private AppointmentDAO appointmentDAO = new AppointmentDAO();
 
     private Mapper mapper = new Mapper();
-
+    private DiscountService discountService = new DiscountService();
     @GET
     public Response getAll() {
         Optional<List<Client>> clientsData = clientDAO.getAll();
@@ -78,10 +79,8 @@ public class ClientController {
         }
         Client client = clientData.get();
         int size = client.getAppointments().size();
-        if (size > 0) {
-            if (size % 10 == 0) {
-                Response.status(Response.Status.OK).entity(true).build();
-            }
+        if (discountService.hasDiscount(size)) {
+            Response.status(Response.Status.OK).entity(true).build();
         }
         return Response.status(Response.Status.OK).entity(false).build();
     }
