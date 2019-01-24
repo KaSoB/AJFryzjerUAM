@@ -7,6 +7,8 @@ import pl.aj.uamproject.hairdresser.dto.ClientDTO;
 import pl.aj.uamproject.hairdresser.dto.Mapper;
 import pl.aj.uamproject.hairdresser.model.Appointment;
 import pl.aj.uamproject.hairdresser.model.Client;
+import pl.aj.uamproject.hairdresser.service.DiscountService;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.*;
@@ -29,7 +31,7 @@ public class ClientController {
     private AppointmentDAO appointmentDAO = new AppointmentDAO();
 
     private Mapper mapper = new Mapper();
-
+    private DiscountService discountService = new DiscountService();
     @GET
     public Response getAll() {
         Optional<List<Client>> clientsData = clientDAO.getAll();
@@ -66,6 +68,21 @@ public class ClientController {
         Client client = clientData.get();
         ClientDTO clientDTO = mapper.ClientToClientDTO(client);
         return Response.status(Response.Status.OK).entity(clientDTO).build();
+    }
+
+    @GET
+    @Path("{id}/discount")
+    public Response hasDiscount(@PathParam("id") int id) {
+        Optional<Client> clientData = clientDAO.getById(id);
+        if (!clientData.isPresent()) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        Client client = clientData.get();
+        int size = client.getAppointments().size();
+        if (discountService.hasDiscount(size)) {
+            Response.status(Response.Status.OK).entity(true).build();
+        }
+        return Response.status(Response.Status.OK).entity(false).build();
     }
 
     @GET
@@ -108,9 +125,9 @@ public class ClientController {
     }
 
     @POST
+    @Path("")
     public Response addClient(ClientDTO client) {
-        Client entity = mapper.ClientDTOToClient(client);
-        Client ret = clientDAO.add(entity);
+        Client ret = clientDAO.add(new Client(client.getFirstName(), client.getLastName(), client.getEmail(), client.getPhoneNumber()));
         ClientDTO clientDTO = mapper.ClientToClientDTO(ret);
 
         return Response.status(Response.Status.CREATED).entity(clientDTO).build();

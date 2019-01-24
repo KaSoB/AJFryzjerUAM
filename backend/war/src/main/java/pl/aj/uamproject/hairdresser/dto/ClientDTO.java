@@ -19,6 +19,12 @@ public class ClientDTO {
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
+    public ClientDTO(String firstName, String lastName, String email, String phoneNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
 
     public int getId() {
         return id;

@@ -69,13 +69,16 @@ public class AppointmentController {
         if (!clientData.isPresent() || !employeeData.isPresent()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+        Client client = clientData.get();
+        Employee employee = employeeData.get();
 
-        Appointment entity = mapper.AppointmentCreateDTOToAppointment(appointment,clientData.get(),employeeData.get());
+        Appointment entity = new Appointment(client, employee, new Date(appointment.getAppointmentDate()));
+
         Appointment ret = appointmentDAO.add(entity);
         AppointmentDTO dto = mapper.AppointmentToAppointmentDTO(ret);
 
         // send email
-        emailService.sendEmail(entity.getClient().getEmail(),entity.getAppointmentDate());
+        emailService.sendEmail(entity.getClient().getEmail(), entity.getAppointmentDate());
         // returns AppointmentDTO, not AppointmentCreateDTO
         return Response.status(Response.Status.CREATED).entity(dto).build();
     }
@@ -87,12 +90,12 @@ public class AppointmentController {
         if (!clientData.isPresent() || !employeeData.isPresent()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        Appointment entity = mapper.AppointmentCreateDTOToAppointment(appointment,clientData.get(),employeeData.get());
+        Appointment entity = mapper.AppointmentCreateDTOToAppointment(appointment, clientData.get(), employeeData.get());
         Appointment ret = appointmentDAO.update(entity);
         AppointmentDTO dto = mapper.AppointmentToAppointmentDTO(ret);
 
         // send email
-        emailService.sendEmail(entity.getClient().getEmail(),entity.getAppointmentDate());
+        emailService.sendEmail(entity.getClient().getEmail(), entity.getAppointmentDate());
         // returns AppointmentDTO, not AppointmentCreateDTO
         return Response.status(Response.Status.OK).entity(dto).build();
     }

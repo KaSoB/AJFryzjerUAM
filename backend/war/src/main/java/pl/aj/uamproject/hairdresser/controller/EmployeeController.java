@@ -72,7 +72,7 @@ public class EmployeeController {
 
     @POST
     public Response add(EmployeeDTO employee) {
-        Employee entity = mapper.EmployeeDTOToEmployee(employee);
+        Employee entity = new Employee(employee.getFirstName(), employee.getLastName());
         Employee ret = employeeDAO.add(entity);
         EmployeeDTO dto = mapper.EmployeeToEmployeeDTO(ret);
 
