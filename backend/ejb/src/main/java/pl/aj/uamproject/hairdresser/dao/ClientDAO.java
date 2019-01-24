@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.*;
 
@@ -21,11 +22,6 @@ public class ClientDAO {
 
     @PostConstruct
     void init() {
-        em.persist(new Client("Jan", "Kowalski", "jankowal@vp.pl", "698488394"));
-        em.persist(new Client("Robert", "Nowak", "robert@onet.pl", "123456789"));
-        em.persist(new Client("Sebastian", "Chmielewski", "chmielewskipolska@vp.pl", "569845316"));
-        em.persist(new Client("Piotr", "Gajewski", "GajPiotr@vp.pl", "745896321"));
-        em.persist(new Client("Wiktoria", "Nowak", "nowak.wikotria@vp.pl", "986532147"));
     }
 
     public Optional<List<Client>> getClientByPhoneNumber(String phoneNumber) {
@@ -53,12 +49,16 @@ public class ClientDAO {
     }
 
     public Optional<Client> getById(int id) {
-        Client client = em.
-                createQuery(
-                        "SELECT c FROM Client c WHERE c.id=:id", Client.class)
-                .setParameter("id", id)
-                .setMaxResults(1).getSingleResult();
-        return Optional.of(client);
+        try {
+            Client client = em.
+                    createQuery(
+                            "SELECT c FROM Client c WHERE c.id=:id", Client.class)
+                    .setParameter("id", id)
+                    .setMaxResults(1).getSingleResult();
+            return Optional.of(client);
+        } catch (NoResultException ex) {
+            return Optional.empty();
+        }
     }
 
     public Optional<List<Client>> getAll() {

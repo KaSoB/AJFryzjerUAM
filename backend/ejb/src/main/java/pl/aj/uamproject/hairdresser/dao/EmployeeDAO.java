@@ -22,11 +22,7 @@ public class EmployeeDAO {
 
     @PostConstruct
     void init() {
-        em.persist(new Employee("Damian", "Walczak"));
-        em.persist(new Employee("Franciszek ", "Romanowski"));
-        em.persist(new Employee("Pawel", "Jankowski"));
-        em.persist(new Employee("Krzysztof", "Nowicki"));
-    }
+     }
 
 
     public Optional<Employee> getById(int id) {
