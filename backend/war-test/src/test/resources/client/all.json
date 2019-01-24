@@ -1,0 +1,38 @@
+[
+  {
+    "firstName": "Jan",
+    "id": 1,
+    "lastName": "Kowalski",
+    "email": "jankowal@vp.pl",
+    "phoneNumber": "698488394"
+  },
+  {
+    "firstName": "Robert",
+    "id": 2,
+    "lastName": "Nowak",
+    "email": "robert@onet.pl",
+    "phoneNumber": "123456789"
+  },
+  {
+    "firstName": "Sebastian",
+    "id": 3,
+    "lastName": "Chmielewski",
+    "email": "chmielewskipolska@vp.pl",
+    "phoneNumber": "569845316"
+  },
+  {
+    "firstName": "Piotr",
+    "id": 4,
+    "lastName": "Gajewski",
+    "email": "GajPiotr@vp.pl",
+    "phoneNumber": "745896321"
+  },
+  {
+    "firstName": "Wiktoria",
+    "id": 5,
+    "lastName": "Nowak",
+    "email": "nowak.wikotria@vp.pl",
+    "phoneNumber": "986532147"
+  }
+]
+
